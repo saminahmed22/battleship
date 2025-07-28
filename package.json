@@ -27,7 +27,7 @@
     "deploy": "git subtree push --prefix dist origin gh-pages",
     "prettier": "prettier . --write"
   },
-  "name": "respage",
+  "name": "battleship",
   "version": "1.0.0",
   "main": "webpack.config.js",
   "dependencies": {
@@ -296,14 +296,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saminahmed22/resPage.git"
+    "url": "git+https://github.com/saminahmed22/Battleship.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/saminahmed22/resPage/issues"
+    "url": "https://github.com/saminahmed22/Battleship/issues"
   },
-  "homepage": "https://github.com/saminahmed22/resPage#readme",
-  "description": ""
+  "homepage": "https://github.com/saminahmed22/Battleship#readme",
+  "description": "Template for webpack"
 }
