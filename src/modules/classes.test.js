@@ -61,7 +61,7 @@ describe("GameBoard Class", () => {
     });
   });
 
-  describe("hasAllSunked Function", () => {].js
+  describe("hasAllSunked Function", () => {
     test("Return true as all ship has been sunked", () => {
       expect(board.hasAllSunked()).toBeFalsy();
     });
