@@ -1,4 +1,5 @@
-import { Ship, GameBoard } from "./classes.js";
+import { Ship } from "./ship.js";
+import { GameBoard } from "./gameBoard.js";
 
 // Tests for Ship Class and its methods
 describe("Ship Class", () => {
@@ -60,7 +61,7 @@ describe("GameBoard Class", () => {
     });
   });
 
-  describe("hasAllSunked Function", () => {
+  describe("hasAllSunked Function", () => {].js
     test("Return true as all ship has been sunked", () => {
       expect(board.hasAllSunked()).toBeFalsy();
     });
