@@ -4,25 +4,48 @@ export class GameBoard {
     this.missedCells = [];
   }
 
-  placeShip(ship, pos) {
+  getPossibleCells(ship, pos) {
     const size = ship.size;
     const axis = ship.axis;
 
-    const shipHead = Math.floor(size / 2);
-    const shipTail = Math.ceil(size / 2);
+    const shipCenter =
+      size % 2 === 0 ? Math.ceil((size - 1) / 2) : Math.ceil(size / 2);
+
+    let shipHeadSize = shipCenter - 1;
+    let shipTailSize = size - shipCenter;
 
     const head = pos.slice();
     const tail = pos.slice();
 
-    // watch for overflow or overlap, not implemented yet
-    // Calculating the head
-    for (let i = 1; i < shipHead; i++) {
-      axis === "X" ? head[0]++ : head[1]++;
-    }
+    let renderedShipSize = size - 1;
 
-    // Calculating the tail
-    for (let i = 0; i < shipTail; i++) {
-      axis === "X" ? tail[0]-- : tail[1]--;
+    while (renderedShipSize) {
+      // Calculating the head
+      while (shipHeadSize) {
+        const newHead = axis === "X" ? head[0] + 1 : head[1] + 1;
+        if (newHead > 10) {
+          shipTailSize += shipHeadSize;
+          shipHeadSize = 0;
+          break;
+        }
+        axis === "X" ? head[0]++ : head[1]++;
+        shipHeadSize -= 1;
+        renderedShipSize -= 1;
+      }
+
+      // Calculating the tail
+      while (shipTailSize) {
+        const newTail = axis === "X" ? tail[0] - 1 : tail[1] - 1;
+
+        if (newTail < 1) {
+          shipHeadSize += shipTailSize;
+          shipTailSize = 0;
+          break;
+        }
+        axis === "X" ? tail[0]-- : tail[1]--;
+        shipTailSize -= 1;
+        renderedShipSize -= 1;
+      }
     }
 
     // Calculating the occupied cells
@@ -32,18 +55,13 @@ export class GameBoard {
       axis === "X" ? tail[0]++ : tail[1]++;
     }
 
-    //Check for overlapping
-    for (const cell of cells) {
-      if (cell.toString() in this.occupiedCells) {
-        return "Overlapped";
-      }
-    }
+    return cells;
+  }
 
+  placeShip(cells, ship) {
     cells.forEach((cell) => {
       this.occupiedCells[cell] = ship;
     });
-
-    return this.occupiedCells;
   }
 
   receiveAttack(pos) {
