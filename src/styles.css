@@ -1,0 +1,335 @@
+@font-face {
+  font-family: gameboy;
+  src: url(./Assets/fonts/early_gameboy/Early\ GameBoy.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: #00050a;
+  font-family: gameboy;
+  user-select: none;
+  outline: none;
+}
+
+.header {
+  height: 10%;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header p {
+  font-size: 40px;
+}
+.BB-61 {
+  position: fixed;
+  animation: slide-left 100s linear forwards;
+}
+@keyframes slide-left {
+  0% {
+    left: 100vw;
+  }
+  100% {
+    left: -200vw;
+  }
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.39);
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.contentBox {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.selectMode {
+  height: 300px;
+  width: 500px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 1px solid white;
+  color: white;
+}
+
+.introDialogue {
+  margin: -20px 0 0 10px;
+}
+
+.modeOptions {
+  height: 170px;
+  width: 350px;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.optionComputer,
+.optionFriend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.optionFriendButton,
+.optionComputerButton {
+  height: 150px;
+  width: 150px;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.optionFriendButton:hover,
+.optionComputerButton:hover {
+  opacity: 0.7;
+}
+
+.optionFriendButton > pre {
+  scale: 0.5;
+  margin: 40px 10px 0 0;
+}
+
+.getName {
+  height: 200px;
+  width: fit-content;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid white;
+  color: white;
+}
+
+.getName p {
+  margin: 10px 0 0 10px;
+  font-size: 20px;
+}
+
+.getName input {
+  height: 30px;
+  width: 200px;
+  background-color: #cfcfcf;
+  border: 1px solid white;
+  padding-left: 10px;
+  font-size: small;
+  font-family: gameboy;
+  outline: none;
+}
+
+.getName button {
+  height: 30px;
+  width: 100px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  font-family: gameboy;
+}
+
+.getName button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.getName button:active {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.placeShipStage {
+  height: fit-content;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  margin-left: 250px;
+  gap: 100px;
+}
+
+.placemnetBoardContainer,
+.boardDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.instructionDiv {
+  display: none;
+  height: 150px;
+  width: 500px;
+  border: 1px solid #f9f9f9;
+  overflow: break-word;
+}
+
+.instructionDiv ol {
+  list-style-position: inside;
+  margin: 20px 0 0 15px;
+}
+
+.instructionDiv li {
+  color: rgba(255, 255, 255, 0.555);
+  font-size: 1rem;
+  margin: 0 0 15px 0;
+}
+
+/* .placementBoard{
+  height: fit-content;
+  width: 100%;
+} */
+
+.ship {
+  height: 45px;
+  width: fit-content;
+  display: flex;
+  border-width: 1px 0 1px 1px;
+  border-style: solid;
+  border-color: lightblue;
+  margin: 0 0 20px 20px;
+}
+.ship:hover {
+  background-color: rgba(173, 216, 230, 0.1);
+}
+
+.ship:active {
+  background-color: rgba(173, 216, 230, 0.5);
+}
+
+.shipCell {
+  height: 45px;
+  width: 45px;
+  border-right: 1px solid lightblue;
+}
+
+.playingStage {
+  display: none;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+}
+
+.turnAnnouncer {
+  height: 50px;
+  width: 100%;
+  padding-bottom: 40px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.blink {
+  animation: blink 1s step-start 3;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.boards {
+  height: 500px;
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.boardTitle {
+  color: white;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  height: fit-content;
+  width: fit-content;
+  outline: 1px solid white !important;
+  cursor: pointer;
+}
+
+.activeBoard .cell:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.row {
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+}
+
+.cell {
+  height: 45px;
+  width: 45px;
+  border-right: 1px solid rgba(128, 128, 128, 0.5);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+  margin: 0 -1px -1px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hit {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.miss {
+  background-color: rgba(255, 166, 0, 0.1);
+}
+
+.redMark,
+.orangeMark {
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+}
+
+.redMark {
+  background-color: crimson;
+}
+
+.orangeMark {
+  background-color: orange;
+}
+
+.replayModal {
+  height: 150px;
+  width: 200px;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: white;
+  background-color: #00050ada;
+  padding: 20px 20px 0 20px;
+}
+.restartBtn {
+  height: 30px;
+  width: 80px;
+  background-color: silver;
+  align-self: flex-end;
+  font-family: gameboy;
+  border: 1px solid black;
+}
