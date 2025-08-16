@@ -278,9 +278,6 @@ export async function runGame(firstPlayerObj, secondPlayerObj) {
     if (isHit != "hit") {
       [attackingPlayer, defendingPlayer] = [defendingPlayer, attackingPlayer];
     }
-    console.log(
-      `Samins all ship has been sunked: ${firstPlayerBoard.hasAllSunked()}`,
-    );
   }
   const winner = firstPlayerObj.board.hasAllSunked()
     ? secondPlayerObj.name
