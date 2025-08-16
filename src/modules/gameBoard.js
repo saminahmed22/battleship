@@ -67,23 +67,10 @@ export class GameBoard {
   receiveAttack(pos) {
     const ship = this.occupiedCells[pos];
 
-    if (ship) {
-      !ship.checkSunk() ? ship.incrementHit() : 0;
+    if (ship && !ship.checkSunk()) {
+      ship.incrementHit();
       return ship.hit;
-    } else {
-      this.missedCells.push(pos);
-      return this.missedCells[0];
     }
-  }
-
-  //no use, remove later
-  has(parentArr, target) {
-    for (let i = 0; i < parentArr.length; i++) {
-      if (JSON.stringify(parentArr[i]) === JSON.stringify(target)) {
-        return [true, i];
-      }
-    }
-    return [false, 0];
   }
 
   hasAllSunked() {
