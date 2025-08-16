@@ -116,9 +116,9 @@ function placementBoardListeners(boardObject, ship) {
     let cellCoordinates;
 
     boardDiv.addEventListener("mouseover", (event) => {
-      const cell = event.target.closest(".cell");
-      if (!cell) return;
-      cellCoordinates = JSON.parse(cell.dataset.coordinate);
+      const cellDiv = event.target.closest(".cell");
+      if (!cellDiv) return;
+      cellCoordinates = JSON.parse(cellDiv.dataset.coordinate);
       hoveredCells = boardObject.getPossibleCells(ship, cellCoordinates);
 
       if (
@@ -218,6 +218,39 @@ export async function placeShips(
     currentAxis = axis;
   }
   shipPlaceStage.style.display = "none";
+}
+
+export async function botPlaceShips(
+  playerObject,
+  shipCount = 6,
+  shipSizes = [5, 4, 4, 3, 3, 2],
+) {
+  const boardObj = playerObject.board;
+
+  const axies = ["X", "Y"];
+
+  let curretShipIndex = 0;
+
+  let possibleCells;
+  while (shipCount) {
+    const computerAxis = axies[randomNumGen(2) - 1];
+    const ship = new Ship(shipSizes[curretShipIndex], computerAxis);
+    const pos = [randomNumGen(10), randomNumGen(10)];
+    possibleCells = boardObj.getPossibleCells(ship, pos);
+    if (
+      !possibleCells.some((cell) =>
+        Object.keys(boardObj.occupiedCells).includes(cell.join(",")),
+      )
+    ) {
+      boardObj.placeShip(possibleCells, ship);
+      curretShipIndex += 1;
+      shipCount -= 1;
+    }
+  }
+}
+
+function randomNumGen(range) {
+  return Math.floor(Math.random() * range) + 1;
 }
 
 export function renderPlayingBoards(playerNames) {
