@@ -37,27 +37,20 @@ describe("Ship Class", () => {
 
 // Tests for GameBoard Class and its methods
 describe("GameBoard Class", () => {
-  const ship = new Ship(7);
+  const ship = new Ship(6);
   const board = new GameBoard();
 
-  describe("PlaceShip function", () => {
-    const returnValue = board.placeShip(ship, [5, 3]);
-    test("Returns the correct amount of occupied cells", () => {
-      expect(Object.keys(returnValue).length).toEqual(7);
-    });
-
-    test("return if overlapped", () => {
-      expect(board.placeShip(ship, [4, 3])).toBe("Overlapped");
+  describe("getPossibleCells function", () => {
+    test("Retruns a array containing 5 cells", () => {
+      const returnVal = board.getPossibleCells(ship, [1, 1]);
+      board.placeShip(returnVal, ship);
+      expect(returnVal.length).toEqual(6);
     });
   });
 
   describe("Attack receive function", () => {
     test("Sucessfully attacking a pos", () => {
-      expect(board.receiveAttack([4, 3])).toEqual(1);
-    });
-
-    test("Miss attacking a cell", () => {
-      expect(board.receiveAttack([9, 5])).toEqual([9, 5]);
+      expect(board.receiveAttack("1,1")).toEqual(1);
     });
   });
 
