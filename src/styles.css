@@ -19,6 +19,21 @@ body {
   outline: none;
 }
 
+button {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  font-family: gameboy;
+}
+
+button:enabled:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+button:enabled:active {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 .header {
   height: 10%;
   width: 100%;
@@ -41,6 +56,89 @@ body {
   100% {
     left: -200vw;
   }
+}
+
+.helpBtn {
+  height: 40px;
+  width: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-left: 8px;
+
+  border: 1px solid white;
+  border-radius: 100%;
+
+  position: absolute;
+  right: 80px;
+  font-size: 22px;
+}
+
+.helpBtn:hover,
+.helpBtn:active {
+  background-color: transparent !important;
+}
+
+.helpBtn:active {
+  opacity: 0.8;
+}
+
+.helpModal {
+  height: 700px;
+  width: 900px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  background-color: #00050a;
+  color: rgb(255, 255, 255);
+
+  border: 1px solid rgba(255, 255, 255, 0.096);
+}
+.helpModal > h2 {
+  align-self: center;
+  margin: 10px 0 20px 0;
+}
+.helpIntro {
+  margin: 0 0 20px 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.helpModal h3 {
+  margin: 0 0 15px 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.helpModal ul {
+  margin: 0 0 15px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.closeHelpBtnDiv {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0px;
+}
+.closeHelpBtn {
+  margin-right: 22px;
+  font-size: 22px;
+  color: white;
+}
+
+.closeHelpBtn:hover,
+.closeHelpBtn:active {
+  margin-right: 22px;
+  font-size: 22px;
+  color: red;
 }
 
 .overlay {
@@ -141,18 +239,6 @@ body {
 .getName button {
   height: 30px;
   width: 100px;
-  border: 1px solid white;
-  background-color: transparent;
-  color: white;
-  font-family: gameboy;
-}
-
-button:enabled:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-button:enabled:active {
-  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .placeShipStage {
@@ -376,7 +462,7 @@ button:enabled:active {
   height: 150px;
   width: 200px;
   border: 1px solid white;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-around;
   color: white;
