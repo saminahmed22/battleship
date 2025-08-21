@@ -66,7 +66,7 @@ export function renderPlacementStage(playerObject, secondPlayerName) {
   const boardObject = playerObject.board;
 
   const placemnetBoardContainer = document.createElement("div");
-  placemnetBoardContainer.classList.add("placemnetBoardContainer");
+  placemnetBoardContainer.classList.add("placementBoardContainer");
 
   const boardTitle = document.createElement("div");
   boardTitle.classList.add("boardTitle");
@@ -150,7 +150,7 @@ function changeCellColour(cellArr, action) {
 }
 
 export function placementBoardListeners(boardObject, ship, handlePlacement) {
-  const board = document.querySelector(".placementBoard");
+  const boardContainer = document.querySelector(".placementBoardContainer");
 
   let hoveredCells, cellCoordinates;
 
@@ -175,46 +175,54 @@ export function placementBoardListeners(boardObject, ship, handlePlacement) {
     if (!cellDiv.classList.contains("cell")) return;
 
     cellCoordinates = JSON.parse(cellDiv.dataset.coordinate);
+    console.log(`HERE1: ${cellCoordinates}`);
+
     updateHoveredCells();
 
     changeCellColour(hoveredCells, hasTargetted() ? "overlapped" : "in");
   };
 
-  const mouseOutHandler = () => {
+  const mouseOutHandler = (event) => {
+    const cellDiv = event.target;
+    if (!cellDiv.classList.contains("cell")) return;
+
     changeCellColour(hoveredCells, "out");
   };
 
-  const wheelHandler = () => {
+  const wheelHandler = (event) => {
+    const cellDiv = event.target;
+    if (!cellDiv.classList.contains("cell")) return;
+
     changeCellColour(hoveredCells, "out");
 
     ship.axis = ship.axis === "X" ? "Y" : "X";
-
+    console.log(`HERE: ${cellCoordinates}`);
     updateHoveredCells();
 
     changeCellColour(hoveredCells, hasTargetted() ? "overlapped" : "in");
   };
 
-  const clickHandler = () => {
-    const valid = !hasTargetted();
+  const clickHandler = (event) => {
+    const cellDiv = event.target;
+    if (!cellDiv.classList.contains("cell")) return;
 
-    if (valid) {
-      handlePlacement(boardObject, ship, hoveredCells);
-      cleanupBoard();
-    }
+    const isValid = !hasTargetted();
+
+    handlePlacement(isValid, boardObject, ship, hoveredCells);
 
     resolveAxis(ship.axis);
   };
 
-  board.addEventListener("mouseover", mouseOverHandler);
-  board.addEventListener("mouseout", mouseOutHandler);
-  board.addEventListener("wheel", wheelHandler);
-  board.addEventListener("click", clickHandler);
+  boardContainer.addEventListener("mouseover", mouseOverHandler);
+  boardContainer.addEventListener("mouseout", mouseOutHandler);
+  boardContainer.addEventListener("wheel", wheelHandler);
+  boardContainer.addEventListener("click", clickHandler);
 
   const cleanupBoard = () => {
-    board.removeEventListener("mouseover", mouseOverHandler);
-    board.removeEventListener("mouseout", mouseOutHandler);
-    board.removeEventListener("wheel", wheelHandler);
-    board.removeEventListener("click", clickHandler);
+    boardContainer.removeEventListener("mouseover", mouseOverHandler);
+    boardContainer.removeEventListener("mouseout", mouseOutHandler);
+    boardContainer.removeEventListener("wheel", wheelHandler);
+    boardContainer.removeEventListener("click", clickHandler);
   };
 
   return { axisPromise, cleanupBoard };
@@ -267,10 +275,13 @@ export async function placeShips(
     clearBtn.removeEventListener("click", clearBoard);
   }
 
-  const handlePlacement = (boardObject, ship, cells) => {
-    boardObject.placeShip(cells, ship);
+  const handlePlacement = (isValid, boardObject, ship, cells) => {
+    if (isValid) {
+      boardObject.placeShip(cells, ship);
+      currentState.index++;
+    }
+    removeBoardListeners();
     updatePlacementGrid(boardObject);
-    currentState.index++;
   };
 
   let removeBoardListeners;
