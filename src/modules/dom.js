@@ -175,7 +175,6 @@ export function placementBoardListeners(boardObject, ship, handlePlacement) {
     if (!cellDiv.classList.contains("cell")) return;
 
     cellCoordinates = JSON.parse(cellDiv.dataset.coordinate);
-    console.log(`HERE1: ${cellCoordinates}`);
 
     updateHoveredCells();
 
@@ -190,13 +189,14 @@ export function placementBoardListeners(boardObject, ship, handlePlacement) {
   };
 
   const wheelHandler = (event) => {
+    event.preventDefault();
     const cellDiv = event.target;
     if (!cellDiv.classList.contains("cell")) return;
 
     changeCellColour(hoveredCells, "out");
 
     ship.axis = ship.axis === "X" ? "Y" : "X";
-    console.log(`HERE: ${cellCoordinates}`);
+
     updateHoveredCells();
 
     changeCellColour(hoveredCells, hasTargetted() ? "overlapped" : "in");
@@ -257,16 +257,22 @@ export async function placeShips(
 
     clearBtn.disabled = false;
     confirmBtn.disabled = false;
+
     currentState.index = shipSizes.length + 10;
   }
 
   function clearBoard() {
     boardObject.occupiedCells = {};
+
     currentState.index = 0;
     currentState.axis = "X";
+
     removeBoardListeners();
+
     updatePlacementGrid(boardObject);
+
     confirmBtn.disabled = true;
+
     PlaceShipLoop();
   }
 
