@@ -147,10 +147,11 @@ body {
   font-family: gameboy;
 }
 
-.getName button:hover {
+button:enabled:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
-.getName button:active {
+
+button:enabled:active {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -173,12 +174,46 @@ body {
   gap: 20px;
 }
 
+.actBtnContainer {
+  display: flex;
+  gap: 30px;
+  align-self: flex-end;
+  margin: 10px 50px 0 0;
+}
+
+.clearBtn,
+.confirmBtn {
+  height: 40px;
+  width: 120px;
+  background-color: transparent;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: gameboy;
+  cursor: pointer;
+}
+
+.clearBtn:disabled,
+.confirmBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .instructionDiv {
   display: none;
-  height: 150px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 280px;
   width: 500px;
   border: 1px solid #f9f9f9;
   overflow: break-word;
+}
+.instructionDiv > p {
+  color: white;
 }
 
 .instructionDiv ol {
@@ -190,6 +225,29 @@ body {
   color: rgba(255, 255, 255, 0.555);
   font-size: 1rem;
   margin: 0 0 15px 0;
+}
+
+.scrambleShipBtn {
+  background-color: transparent;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+.scrambleShipBtn:active img {
+  opacity: 0.8;
+}
+
+.scrambleShipBtn:hover,
+.scrambleShipBtn:active {
+  background-color: transparent !important;
+}
+
+.scrambleShipBtn img {
+  scale: 0.1;
 }
 
 /* .placementBoard{
