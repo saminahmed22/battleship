@@ -165,7 +165,7 @@ button:enabled:active {
   gap: 100px;
 }
 
-.placemnetBoardContainer,
+.placementBoardContainer,
 .boardDiv {
   display: flex;
   flex-direction: column;
