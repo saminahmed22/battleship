@@ -1,14 +1,9 @@
 import "./styles.css";
 import { getMode } from "./modules/dom.js";
-import { execModeComputer } from "./modules/computerMode.js";
-import { execModeFriend } from "./modules/friendMode.js";
+import { execGame } from "./modules/execGame.js";
 
 (async function main() {
   const selectedMode = await getMode();
 
-  if (selectedMode === "optionComputer") {
-    execModeComputer();
-  } else {
-    execModeFriend();
-  }
+  execGame(selectedMode);
 })();
