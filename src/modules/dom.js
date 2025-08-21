@@ -9,6 +9,8 @@ const nameInput = document.getElementById("name");
 const placeShipStage = document.querySelector(".placeShipStage");
 const turnAnnouncer = document.querySelector(".turnAnnouncer");
 const restartBtn = document.querySelector(".restartBtn");
+const helpBtn = document.querySelector(".helpBtn");
+const closeHelpBtn = document.querySelector(".closeHelpBtn");
 
 export async function getMode() {
   modeSelectModal.style.display = "flex";
@@ -438,6 +440,7 @@ export async function runGame(firstPlayerObj, secondPlayerObj) {
 
   setTimeout(() => {
     document.querySelector(".overlay").style.display = "flex";
+    replayModal.querySelector(".overlay").style.display = "flex";
   }, 6000);
 }
 
@@ -624,4 +627,14 @@ function getNextAttack(previousAttack, variables) {
 
 restartBtn.addEventListener("click", () => {
   location.reload(true);
+});
+
+helpBtn.addEventListener("click", () => {
+  document.querySelector(".overlay").style.display = "flex";
+  document.querySelector(".helpModal").style.display = "flex";
+});
+
+closeHelpBtn.addEventListener("click", () => {
+  document.querySelector(".overlay").style.display = "none";
+  document.querySelector(".helpModal").style.display = "none";
 });
