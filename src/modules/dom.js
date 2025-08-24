@@ -411,17 +411,17 @@ export async function runGame(firstPlayerObj, secondPlayerObj) {
   turnAnnouncer.appendChild(announcerText);
   const firstPlayerBoard = firstPlayerObj.board;
   const secondPlayerBoard = secondPlayerObj.board;
-  let isHit, lastAttack, variables;
+  let isHit, attack, method;
   while (
     !firstPlayerBoard.hasAllSunked() &&
     !secondPlayerBoard.hasAllSunked()
   ) {
     announcerText.textContent = `${attackingPlayer.name}'s turn`;
     if (attackingPlayer.name === "Computer") {
-      [isHit, lastAttack, variables] = await botAttackCell(
+      [isHit, attack, method] = await botAttackCell(
         defendingPlayer,
-        isHit === "hit" ? lastAttack : null,
-        isHit === "hit" ? variables : null,
+        isHit === "hit" ? attack : null,
+        isHit === "hit" ? method : null,
       );
     } else {
       isHit = await attackCell(defendingPlayer);
@@ -440,7 +440,7 @@ export async function runGame(firstPlayerObj, secondPlayerObj) {
 
   setTimeout(() => {
     document.querySelector(".overlay").style.display = "flex";
-    replayModal.querySelector(".overlay").style.display = "flex";
+    document.querySelector(".replayModal").style.display = "flex";
   }, 6000);
 }
 
@@ -485,7 +485,7 @@ async function attackCell(currentPlayer) {
   });
 }
 
-async function botAttackCell(botObject, previousAttack, variables) {
+async function botAttackCell(botObject, previousAttack, previousMethod) {
   const boardObj = botObject.board;
   const occupiedCells = Object.keys(botObject.board.occupiedCells);
 
@@ -497,29 +497,19 @@ async function botAttackCell(botObject, previousAttack, variables) {
   return new Promise((resolve) => {
     const markerDiv = document.createElement("div");
 
-    let pos, cell, cellClass, markerClass;
+    let pos, method, cell, cellClass, markerClass;
 
-    while (true) {
-      [pos, variables] = getNextAttack(previousAttack, variables, boardObj);
-      cell = document.querySelector(`[data-coordinate="${pos}"]`);
+    ({ pos, method } = getNextAttack(previousAttack, previousMethod));
+    cell = document.querySelector(`[data-coordinate="${pos}"]`);
 
-      const hasTargetted = () => {
-        return ["hit", "miss"].some((item) => cell.classList.contains(item));
-      };
-
-      if (!hasTargetted()) {
-        if (!occupiedCells.includes(pos)) {
-          boardObj.missedCells.push(pos);
-          cellClass = "miss";
-          markerClass = "orangeMark";
-          break;
-        } else {
-          boardObj.receiveAttack(pos);
-          cellClass = "hit";
-          markerClass = "redMark";
-          break;
-        }
-      }
+    if (!occupiedCells.includes(pos)) {
+      boardObj.missedCells.push(pos);
+      cellClass = "miss";
+      markerClass = "orangeMark";
+    } else {
+      boardObj.receiveAttack(pos);
+      cellClass = "hit";
+      markerClass = "redMark";
     }
 
     setInterval(() => {
@@ -527,102 +517,99 @@ async function botAttackCell(botObject, previousAttack, variables) {
       markerDiv.classList.add(markerClass);
       cell.appendChild(markerDiv);
       board.classList.remove("activeBoard");
-      resolve([cellClass, pos, variables]);
+      resolve([cellClass, pos, method]);
     }, 800);
   });
 }
 
-// If it's the first move or previous attack was not a hit,
-// it will retrun a [random pos and null as variable]
-
-// If the random pos was a hit, it will receive the pos of previous attack but as the variables were returned as null, it will receive null as variable.
-
-// it will generate all possible move from that received pos, [[pos, [used operator, index]] * 4] and also validate all of them for being out of bound or for being targeted previously
-
-// if it got blocked, means there is no possible moves in any direction, it will return a random pos with null as an variable
-
-// As there is no guarantee which one of the nearest non-targeted cell contains the other part of the ship,
-// it will return [one of the possible pos randomlly and used variable to generate that pos]
-
-// if this randomly selected pos was the next part of the ship, means it was a hit, this time it will receive both the new hit pos and variables
-// again it will generate all possible move from that received pos, [[pos, [used operator, index]] * 4] and also validate all of them for being out of bound or for being targeted previously
-
-// if again, it is blocked, this time, it will reverse the operator in the variable, which means it will go backwards, and it will keep going till the next cell is not hit,
-// And also not missed(if missed, it will simply randomly return a pos and its varaiable). If not hit or miss, it will return that pos with the used variable, chances are it will be a hit.
-//  if not loop goes on.
-
-// varaible means whatever the random operator(+ or -) and whatever the random axis cooridnate was chosen previously which made a hit.
-// then
-
-function getNextAttack(previousAttack, variables) {
-  if (!previousAttack) {
-    return [`${randomNumGen(10)},${randomNumGen(10)}`, null];
+function getNextAttack(previousAttack, method) {
+  function hasTargetted(coordinates) {
+    const cell = document.querySelector(`[data-coordinate="${coordinates}"]`);
+    return cell.classList.contains("hit") || cell.classList.contains("miss");
   }
 
-  cell = document.querySelector(`[data-coordinate="${previousAttack}"]`);
-
-  const hasTargetted = () => {
-    return ["hit", "miss"].some((item) => cell.classList.contains(item));
+  const getRandomPos = () => {
+    while (true) {
+      const randomPos = `${randomNumGen(10)},${randomNumGen(10)}`;
+      if (!hasTargetted(randomPos)) {
+        return { pos: randomPos, method: null };
+      }
+    }
   };
 
-  const previousAttackArr = previousAttack.split(",").map(Number);
+  if (!previousAttack) {
+    return getRandomPos();
+  }
 
-  let pos, index;
+  const previousAttackArr = previousAttack.split(",").map(Number);
+  let moveIndex = 0;
   const operators = ["+", "-"];
-  const possibleMoves = [];
+  const possibleMoves = {};
 
   for (const operator of operators) {
     for (let i = 0; i < previousAttackArr.length; i++) {
-      possibleMoves.push([
-        operator === "+" ? previousAttackArr[i]++ : previousAttackArr[i]--,
-        [operator, i],
-      ]);
+      const tempArr = previousAttackArr.slice();
+      operator === "+" ? tempArr[i]++ : tempArr[i]--;
+      possibleMoves[moveIndex] = {
+        pos: tempArr.join(","),
+        method: [operator, i],
+      };
+      moveIndex++;
     }
   }
 
-  let isBlocked = false;
-  for (const move of possibleMoves) {
-    const moveStr = move.join(",");
-    if (occupiedCells.contains(moveStr) || missedCells.contains(moveStr)) {
-      isBlocked = true;
-    } else {
-      isBlocked = false;
-    }
-  }
-
-  if (isBlocked) {
-    variables[0] = variables[0] === "+" ? "-" : "+";
-  }
-
-  while (!pos) {
-    let nextAttack = null; //HERE ISSUE
-
-    if (variables) {
-      [operator, index] = variables;
-    } else {
-      operator = operators[randomNumGen(2) - 1];
-      index = randomNumGen(2) - 1;
-    }
-
-    operator === "+" ? nextAttack[index]++ : nextAttack[index]--;
-
-    // Infinite Loop Issue
-    // if it's blocked in every direction,botAttack cell will keep calling this funtion,
-    // and as it's already block on all direction, whatever it returns will never accepted
+  // assuming it correctly removes all the targetted ones
+  const ObjLen = Object.keys(possibleMoves).length;
+  for (let i = 0; i < ObjLen; i++) {
+    const move = possibleMoves[i].pos;
+    const moveArr = move.split(",").map(Number);
 
     if (
-      nextAttack[0] < 1 ||
-      nextAttack[0] > 10 ||
-      nextAttack[1] < 1 ||
-      nextAttack[1] > 10
+      moveArr[0] < 1 ||
+      moveArr[0] > 10 ||
+      moveArr[1] < 1 ||
+      moveArr[1] > 10
     ) {
+      delete possibleMoves[i];
       continue;
     }
 
-    pos = nextAttack.join(",");
+    if (hasTargetted(move)) {
+      delete possibleMoves[i];
+      continue;
+    }
   }
-  variables = [operator, index];
-  return [pos, variables];
+
+  const isBlocked = Object.keys(possibleMoves).length < 1;
+
+  while (true) {
+    if (method && !isBlocked) {
+      const [operator, index] = method;
+
+      operator === "+"
+        ? (previousAttackArr[index] += 1)
+        : (previousAttackArr[index] -= 1);
+      const nextMove = [...previousAttackArr];
+
+      for (const move in possibleMoves) {
+        const currentValidMove = possibleMoves[move].pos;
+        const nextmoveStr = nextMove.join(",");
+
+        if (currentValidMove === nextmoveStr) {
+          return { pos: nextmoveStr, method: method };
+        }
+      }
+      method = null;
+      continue;
+    } else if (!method && !isBlocked) {
+      const keys = Object.keys(possibleMoves);
+      const randomKey = keys[randomNumGen(keys.length) - 1];
+      const randomMove = possibleMoves[randomKey];
+      return randomMove;
+    } else {
+      return getRandomPos();
+    }
+  }
 }
 
 restartBtn.addEventListener("click", () => {
