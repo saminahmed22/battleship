@@ -11,3 +11,11 @@ A classic two-player guessing game where each player secretly places ships on a 
 - The game will respond with a hit or miss feedback on the board. If hit, player will get another chance to callout and will do so until they miss.
 - If all the blocks of a ship are hit, it is declared "sunk".
 - The first player to sink all of the opponent’s ships wins.
+
+Ascii art used for friend mode button: https://ascii.co.uk/art/men
+
+Ascii art used for computer mode button: https://www.asciiart.eu/electronics/robots
+
+Ascii Battleship: https://ascii.co.uk/art/battleship
+
+pixelated dice image: https://www.pngkey.com/detail/u2w7t4q8u2i1y3t4_oceanic-navy-metropolitan-class-battleship-by-lapeer-pixel/
