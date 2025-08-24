@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="08086061cbbbff58343a.png" />
+    <title>Battleship</title>
+  <script defer src="main.js"></script></head>
+  <body>
+    <div class="header">
+      <p>Battleship</p>
+      <pre class="BB-61">
+                                     |__
+                                     |\/
+                                     ---
+                                     / | [
+                              !      | |||
+                            _/|     _/|-++'
+                        +  +--|    |--|--|_ |-
+                     { /|__|  |/\__|  |--- |||__/
+                    +---------------___[}-_===_.'____               /\
+                ____`-' ||___-{]_| _[}-  |     |_[___\==--          \/   _
+ __..._____--==/___]_|__|_____________________________[___\==--___,-----' .7
+|                                                                   BB-61/
+ \_______________________________________________________________________|
+        </pre
+      >
+      <button class="helpBtn">?</button>
+    </div>
+    <div class="contentBox">
+      <div class="selectMode">
+        <div class="introDialogue">
+          <p>Welcome aboard, commander!</p>
+          <p>Which mode are we playing today?</p>
+        </div>
+        <div class="modeOptions">
+          <div class="optionFriend button">
+            <p>VS Friend</p>
+            <div class="optionFriendButton">
+              <pre>
+                           ,-----.
+                         /'       `\
+                        ; ----,---- ;
+                        | `o- |`o-  |
+                        |     |_    |
+                        |   _____,  |
+                         \_       _/
+                         | `-----' |
+                     __.-;         ;-.__
+                 _,-'    ; :     ; ;    `-._
+              _,'                           `.
+            ,`-,_____     \ :   : /     ____,-'-,
+          /'         ```----.   .----'''         `\
+         /                   \_/                   \
+        |                     |                     |
+        |        ,            |            ,        |
+        |        |            |            |        |
+        |        \            |            /        |
+        \        /\           |           /\       /
+        /       | |`\        / \        /'| |      \
+        |       | |  `------'   `------'  | |      |
+        |       | \      _.--'|`--._      / |      |
+        \       |  |    __|--'|`--|__    |  |      /
+         |      |  |    __|--'|`--|__pb  |  |     |
+            </pre
+              >
+            </div>
+          </div>
+          <div class="optionComputer button">
+            <p>VS Computer</p>
+            <div class="optionComputerButton">
+              <pre>
+      \_/
+     (* *)
+    __)#(__
+   ( )...( )(_)
+   || |_| ||//
+>==() | | ()/
+    _(___)_
+   [-]   [-]</pre
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <form class="getName">
+        <p>What is your name?</p>
+        <input type="text" name="name" id="name" maxlength="15" required />
+        <button type="submit" for="name">Submit</button>
+      </form>
+      <div class="placeShipStage"></div>
+      <div class="instructionDiv">
+        <ol>
+          <li>Hover on cells and click mouse one to place your ships</li>
+          <li>Use mouse wheel to change direction</li>
+        </ol>
+        <p>or use</p>
+        <button class="scrambleShipBtn">
+          <img src="4e3b989fad195a6ca578.png" alt="" draggable="false" />
+        </button>
+      </div>
+      <div class="playingStage">
+        <div class="turnAnnouncer"></div>
+        <div class="boards"></div>
+      </div>
+    </div>
+    <div class="overlay">
+      <div class="replayModal">
+        <p>Restart?</p>
+        <button class="restartBtn">YES!</button>
+      </div>
+      <div class="helpModal">
+        <div class="closeHelpBtnDiv">
+          <btn class="closeHelpBtn">X</btn>
+        </div>
+
+        <h2>How to Play</h2>
+        <p class="helpIntro">
+          Welcome to the Battleship Game. You will face an opponent, either a
+          friend or the computer. Follow these steps to play:
+        </p>
+
+        <h3>1. Ship Placement</h3>
+        <ul>
+          <li>
+            Each player must place their ships on their board before the battle
+            begins.
+          </li>
+          <li>
+            Select the orientation, horizontal or vertical and position of each
+            ship carefully.
+          </li>
+          <li>You cannot overlap ships or place them outside the board.</li>
+        </ul>
+
+        <h3>2. Taking Turns</h3>
+        <ul>
+          <li>
+            Once ships are placed, players take turns guessing the location of
+            the opponent's ships by clicking on cells on their board.
+          </li>
+          <li>
+            If you hit an opponent's ship, the cell will turn
+            <span style="color: crimson">red</span>.
+          </li>
+          <li>
+            If your attack misses, the cell will turn
+            <span style="color: orange">orange</span>.
+          </li>
+          <li>
+            A successful hit grants you an additional turn. You continue
+            attacking until you miss.
+          </li>
+        </ul>
+
+        <h3>3. Winning the Game</h3>
+        <ul>
+          <li>
+            The first player to destroy all of the opponent's ships wins the
+            game.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
