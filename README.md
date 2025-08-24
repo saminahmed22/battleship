@@ -18,4 +18,4 @@ Ascii art used for computer mode button: https://www.asciiart.eu/electronics/rob
 
 Ascii Battleship: https://ascii.co.uk/art/battleship
 
-pixelated dice image: https://www.pngkey.com/detail/u2w7t4q8u2i1y3t4_oceanic-navy-metropolitan-class-battleship-by-lapeer-pixel/
+pixelated battleship image(used as favicon): https://www.pngkey.com/detail/u2w7t4q8u2i1y3t4_oceanic-navy-metropolitan-class-battleship-by-lapeer-pixel/
